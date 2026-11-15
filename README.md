@@ -44,6 +44,10 @@ A `tar.zst` portable archive of the same build is also published alongside the A
 
 These AppImages work without fuse2 as it can use fuse3 instead, it can also work without fuse at all thanks to the [uruntime](https://github.com/VHSgunzo/uruntime)
 
+## Private upstream access
+
+The build workflows clone the private `rafaelcitario/cnemul` repository. Add a repository Actions secret named `CNEMUL_TOKEN` containing a fine-grained personal access token with access to that repository and **Contents: read-only** permission. The token is used only for Git requests to `cnemul`; do not put it in workflow URLs or commit it to the repository.
+
 
 ---
 

@@ -1,0 +1,21 @@
+name: Authenticate to cnemul
+description: Configure Git authentication for the private cnemul repository
+inputs:
+  token:
+    description: Read-only token with access to rafaelcitario/cnemul
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Configure Git authentication
+      shell: bash
+      env:
+        CNEMUL_TOKEN: ${{ inputs.token }}
+      run: |
+        if [ -z "$CNEMUL_TOKEN" ]; then
+          echo "::error::The CNEMUL_TOKEN secret is not configured."
+          exit 1
+        fi
+
+        AUTH_HEADER=$(printf 'x-access-token:%s' "$CNEMUL_TOKEN" | base64 | tr -d '\r\n')
+        git config --global http.https://github.com/rafaelcitario/cnemul.git.extraheader "AUTHORIZATION: basic $AUTH_HEADER"

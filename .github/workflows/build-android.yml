@@ -16,6 +16,13 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Authenticate to private upstream
+        uses: ./.github/actions/authenticate-cnemul
+        with:
+          token: ${{ secrets.CNEMUL_TOKEN }}
 
       - name: Check if feature branch exists and get commit hash
         id: branch_check
@@ -92,6 +99,16 @@ jobs:
       branch_name: ${{ needs.check-version.outputs.branch_name }}
 
     steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Authenticate to private upstream
+        uses: ./.github/actions/authenticate-cnemul
+        with:
+          token: ${{ secrets.CNEMUL_TOKEN }}
+
       - name: Clone Citron Source Code
         shell: bash
         run: |
@@ -206,6 +223,13 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Authenticate to private upstream
+        uses: ./.github/actions/authenticate-cnemul
+        with:
+          token: ${{ secrets.CNEMUL_TOKEN }}
 
       - name: Install Build Dependencies
         run: |

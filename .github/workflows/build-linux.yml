@@ -18,6 +18,13 @@ jobs:
     steps:
       - name: Checkout this repo
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Authenticate to private upstream
+        uses: ./.github/actions/authenticate-cnemul
+        with:
+          token: ${{ secrets.CNEMUL_TOKEN }}
 
       - name: Get upstream commit hash
         id: upstream
@@ -107,6 +114,11 @@ jobs:
       - name: Install Base Container Tools
         run: pacman -Sy --needed --noconfirm git
 
+      - name: Authenticate to private upstream
+        uses: ./.github/actions/authenticate-cnemul
+        with:
+          token: ${{ secrets.CNEMUL_TOKEN }}
+
       - name: Clone Citron Source
         # No --recursive: build-citron-linux.sh uses CPM to fetch all library
         # dependencies at cmake configure time. No submodule init is required.
@@ -183,6 +195,13 @@ jobs:
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Authenticate to private upstream
+        uses: ./.github/actions/authenticate-cnemul
+        with:
+          token: ${{ secrets.CNEMUL_TOKEN }}
 
       - name: Checkout Upstream Repository
         run: git clone https://github.com/rafaelcitario/cnemul.git upstream_repo
